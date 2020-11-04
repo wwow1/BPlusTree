@@ -112,8 +112,7 @@ void workEnd(){  //本次索引使用结束，进行收尾工作(写回缓冲池
     while(tmp!=NULL){
         if(tmp->ptr==root) //最后结束时要更新root节点的偏移量到head块中，下次才能正确读出
             head->rootPos=tmp->BlockOffset;
-        //if(tmp->ptr->isWrite) //只有被修改的才需要被写回磁盘
-            //printf("flightNum=%s\n",tmp->ptr->Key[0]);
+        if(tmp->ptr->isWrite) //只有被修改的才需要被写回磁盘
             WriteBackToDisk(tmp);
         Buffer* del=tmp;
         tmp=tmp->next;
